@@ -194,10 +194,11 @@ def iothub_client_sample_run():
             client.send_reported_state(reported_state, len(reported_state), send_reported_state_callback, SEND_REPORTED_STATE_CONTEXT)
 
         if not config.SIMULATED_DATA:
-            sensor = BME280(address = config.I2C_ADDRESS)
-        else:
             sensor = SenseHat()
             print 'PI SenseHat Object Created'
+        else:
+            # sensor = BME280(address = config.I2C_ADDRESS)
+            sensor = BME280SensorSimulator()
 
         telemetry.send_telemetry_data(parse_iot_hub_name(), EVENT_SUCCESS, "IoT hub connection is established")
         while True:
