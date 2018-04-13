@@ -15,6 +15,7 @@ import RPi.GPIO as GPIO
 from Adafruit_BME280 import *
 import re
 from telemetry import Telemetry
+from sense_hat import SenseHat
 
 # HTTP options
 # Because it can poll "after 9 seconds" polls will happen effectively
@@ -76,8 +77,8 @@ if not is_correct_connection_string():
 
 MSG_TXT = "{\"deviceId\": \"Raspberry Pi - Python\",\"temperature\": %f,\"humidity\": %f}"
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(config.GPIO_PIN_ADDRESS, GPIO.OUT)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(config.GPIO_PIN_ADDRESS, GPIO.OUT)
 
 def receive_message_callback(message, counter):
     global RECEIVE_CALLBACKS
@@ -104,7 +105,7 @@ def send_confirmation_callback(message, result, user_context):
     print ( "    Properties: %s" % key_value_pair )
     SEND_CALLBACKS += 1
     print ( "    Total calls confirmed: %d" % SEND_CALLBACKS )
-    led_blink()
+    # led_blink()
 
 
 def device_twin_callback(update_state, payload, user_context):
@@ -195,7 +196,8 @@ def iothub_client_sample_run():
         if not config.SIMULATED_DATA:
             sensor = BME280(address = config.I2C_ADDRESS)
         else:
-            sensor = BME280SensorSimulator()
+            sensor = SenseHat()
+            print 'PI SenseHat Object Created'
 
         telemetry.send_telemetry_data(parse_iot_hub_name(), EVENT_SUCCESS, "IoT hub connection is established")
         while True:
@@ -203,8 +205,8 @@ def iothub_client_sample_run():
             if MESSAGE_SWITCH:
                 # send a few messages every minute
                 print ( "IoTHubClient sending %d messages" % MESSAGE_COUNT )
-                temperature = sensor.read_temperature()
-                humidity = sensor.read_humidity()
+                temperature = sensor.get_temperature()
+                humidity = sensor.get_humidity()
                 msg_txt_formatted = MSG_TXT % (
                     temperature,
                     humidity)
@@ -234,10 +236,10 @@ def iothub_client_sample_run():
 
     print_last_message_time(client)
 
-def led_blink():
-    GPIO.output(config.GPIO_PIN_ADDRESS, GPIO.HIGH)
-    time.sleep(config.BLINK_TIMESPAN / 1000.0)
-    GPIO.output(config.GPIO_PIN_ADDRESS, GPIO.LOW)
+# def led_blink():
+#     GPIO.output(config.GPIO_PIN_ADDRESS, GPIO.HIGH)
+#     time.sleep(config.BLINK_TIMESPAN / 1000.0)
+#     GPIO.output(config.GPIO_PIN_ADDRESS, GPIO.LOW)
 
 def usage():
     print ( "Usage: iothub_client_sample.py -p <protocol> -c <connectionstring>" )
