@@ -1,8 +1,14 @@
 # IoT Hub Raspberry Pi 3 Client application
 
-> This repo contains the source code to help you get started with Azure IoT using the Microsoft IoT Pack for Raspberry Pi 3 Starter Kit. You will find the [full tutorial on Docs.microsoft.com](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-raspberry-pi-kit-c-get-started).
+This Raspberry Pi 3 Python Client application for SenseHAT will demonstrate how to integrate Azure IoT Hub.
 
-This repo contains a python application that runs on Raspberry Pi 3 with a BME280 temperature&humidity sensor, and then sends these data to your IoT hub. At the same time, this application receives Cloud-to-Device messages from your IoT hub, and takes actions according to the C2D command.
+## Prereqs
+
+* Python (2.7 or 3.6)
+* Raspberry Pi 3
+* SenseHAT module
+
+This repo contains a Python application that runs on Raspberry Pi 3 with a BME280 temperature&humidity sensor, and then sends these data to your IoT hub. At the same time, this application receives Cloud-to-Device messages from your IoT hub, and takes actions according to the C2D command.
 
 ## Step 1: Set up your Pi
 ### Enable SSH on your Pi

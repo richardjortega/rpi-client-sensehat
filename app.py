@@ -4,6 +4,13 @@
 # Licensed under the MIT license. See LICENSE file in the project root for
 # full license information.
 
+MESSAGE_TIMESPAN = 2000
+SIMULATED_DATA = False
+I2C_ADDRESS = 0x77
+GPIO_PIN_ADDRESS = 24
+BLINK_TIMESPAN = 1000
+
+
 import random
 import time
 import sys
