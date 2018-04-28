@@ -64,7 +64,7 @@ PROTOCOL = IoTHubTransportProvider.MQTT
 telemetry = Telemetry()
 
 if len(sys.argv) < 2:
-    print ( "You need to provide the device connection string as command line arguments." )
+    print ( "You need to provide the device connection string, wrapped in quotes,  as a command line argument." )
     telemetry.send_telemetry_data(None, EVENT_FAILED, "Device connection string is not provided")
     sys.exit(0)
 
