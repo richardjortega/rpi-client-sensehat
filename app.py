@@ -68,6 +68,10 @@ if len(sys.argv) < 2:
     telemetry.send_telemetry_data(None, EVENT_FAILED, "Device connection string is not provided")
     sys.exit(0)
 
+def parse_iot_hub_name():
+    m = re.search("HostName=(.*?)\.", CONNECTION_STRING)
+    return m.group(1)    
+    
 def is_correct_connection_string():
     m = re.search("HostName=.*;DeviceId=.*;", CONNECTION_STRING)
     if m:
@@ -82,7 +86,8 @@ if not is_correct_connection_string():
     telemetry.send_telemetry_data(None, EVENT_FAILED, "Device connection string is not correct.")
     sys.exit(0)
 
-MSG_TXT = "{\"deviceId\": \"Raspberry Pi - Python\",\"temperature\": %f,\"humidity\": %f}"
+#MSG_TXT = "{\"deviceId\": \"Raspberry Pi - Python\",\"temperature\": %f,\"humidity\": %f}"
+MSG_TXT = "{\"deviceId\": \"" + parse_iot_hub_name() + "\",\"temperature\": %f,\"humidity\": %f}"
 
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(config.GPIO_PIN_ADDRESS, GPIO.OUT)
@@ -254,9 +259,6 @@ def usage():
     print ( "    protocol        : <amqp, amqp_ws, http, mqtt, mqtt_ws>" )
     print ( "    connectionstring: <HostName=<host_name>;DeviceId=<device_id>;SharedAccessKey=<device_key>>" )
 
-def parse_iot_hub_name():
-    m = re.search("HostName=(.*?)\.", CONNECTION_STRING)
-    return m.group(1)
 
 if __name__ == "__main__":
     print ( "\nPython %s" % sys.version )
